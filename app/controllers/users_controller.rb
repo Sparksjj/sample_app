@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  
+  before_action :protect_unsign_users, only: [:show, :edit, :update, :create, :index]
   def index
   	@users=User.all
   end
@@ -36,9 +36,17 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
+
+
 private
   def user_params
   	params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
+  def protect_unsign_users     
+    unless signed_in?
+        flash[:error]="Pleas sign in or sign up."
+        redirect_to signin_path 
+    end
+  end
 end
