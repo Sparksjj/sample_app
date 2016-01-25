@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update, :create, :index]
-  before_action :correct_user, only: [:edit, :update]
+  #before_action :correct_user, only: [:edit, :update]
   def index
   	@users=User.all
   end
@@ -44,13 +44,13 @@ private
   
   def require_login  
     unless signed_in?
-        flash[:error]="Pleas sign in or sign up."
+        flash[:error]="Please sign in or sign up first."
         redirect_to signin_path 
     end
   end
 
-  def correct_user
-    user=User.find(params[:id])
-    redirect_to edit_user_path(@user), flash[:error]="Maybe you meant thise page" if correct_user?
-  end
+  #def correct_user
+    #user=User.find(params[:id])
+    #redirect_to edit_user_path(@user), flash[:error]="Maybe you meant thise page" if correct_user?
+  #end
 end
