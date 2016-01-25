@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :protect_unsign_users, only: [:show, :edit, :update, :create, :index]
+  before_action :require_login, only: [:show, :edit, :update, :create, :index]
+  before_action :correct_user, only: [:edit, :update]
   def index
   	@users=User.all
   end
@@ -24,14 +25,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user=User.find(params[:id]) 
   end
 
   def update
-    @user=User.find(params[:id])  
     if @user.update_attributes(user_params)
       flash[:success]="Update has been saved"
-      redirect_to user_path(@user)
+      redirect_to @user
     else
       render 'edit'
     end
@@ -43,10 +42,15 @@ private
   	params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
-  def protect_unsign_users     
+  def require_login  
     unless signed_in?
         flash[:error]="Pleas sign in or sign up."
         redirect_to signin_path 
     end
+  end
+
+  def correct_user
+    user=User.find(params[:id])
+    redirect_to edit_user_path(@user), flash[:error]="Maybe you meant thise page" if correct_user?
   end
 end
