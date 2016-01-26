@@ -24,8 +24,9 @@ class SessionsController < ApplicationController
 	private
 
 	def require_login
-		if signed_in?
+		unless signed_in?
 			flash[:error]="You must be logged in to access this function"
 			redirect_to signin_path
+		end
 	end
 end
