@@ -51,7 +51,7 @@ private
 
   def correct_user
     @user=User.find(params[:id])
-    unless correct_user?
+    unless correct_user?(@user)
       flash[:error]="Maybe you meant thise page" 
       redirect_to edit_user_path(current_user)
     end
