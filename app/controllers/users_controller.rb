@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:show, :edit, :update, :create, :index]
+  before_action :require_login, only: [:show, :edit, :update, :index]
   before_action :correct_user, only: [:edit, :update]
   def index
   	@users=User.all
@@ -44,6 +44,7 @@ private
   
   def require_login  
     unless signed_in?
+        store_location
         flash[:error]="Pleass sign in or sign up first."
         redirect_to signin_path 
     end
