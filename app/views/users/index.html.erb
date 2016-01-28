@@ -1,3 +1,4 @@
+<%= provide(:title, 'All users')%>
 <div class="container">
     <div class="row">
 		<% @users.each do |user|%>
@@ -6,13 +7,11 @@
           			<%= gravatar_for user %>
           			<h3><%=user.name%></h3>
           			<h4><%=user.email%></h4>
-          			<%=link_to 'Show', user_path(user), class: "btn btn-primary"%>
-          			<a href="#" class="btn btn-success"><i class="fa fa-apple"></i>  Изменить</a>
-          			<a href="#" class="btn btn-danger"><i class="fa fa-close"></i>  Удалить</a>
+          			<%=link_to 'Show', user, class: "btn btn-primary"%>
+          			<!--<a href="#" class="btn btn-success"><i class="fa fa-apple"></i>  Изменить</a>
+          			<a href="#" class="btn btn-danger"><i class="fa fa-close"></i>  Удалить</a>-->
         		</div>
       		</div>
       	<%end%>
-
     </div>
 </div>
-<%=link_to "New user", new_user_path%>
