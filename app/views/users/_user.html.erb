@@ -1,0 +1,12 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  <div class="thumbnail">
+  	<%= gravatar_for user %>
+  	<h3><%=user.name%></h3>
+  	<h4><%=user.email%></h4>
+  	<%=link_to 'Show', user, class: "btn btn-primary"%>
+  	<!--<a href="#" class="btn btn-success"><i class="fa fa-apple"></i>  Изменить</a>-->
+    <% if current_user.admin? && !correct_user?(user)%>
+  	<%= link_to  'Delete', user, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger"%> 
+    <%end%>
+	</div>
+</div>

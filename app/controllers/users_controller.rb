@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update, :index]
   before_action :correct_user, only: [:edit, :update]
+  before_action :is_admin, only: [:destroy]
   def index
-  	@users=User.all
+  	@users=User.paginate(page: params[:page], per_page: "10")
   end
 
   def show
@@ -36,6 +37,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted."
+    redirect_to users_url
+  end
 
 private
   def user_params
@@ -56,6 +62,12 @@ private
       flash[:error]="Maybe you meant thise page" 
       redirect_to edit_user_path(current_user)
     end
+  end
+  def is_admin
+    unless current_user.admin?
+      flash[:error]="You mast be admin"
+      redirect_to users_url 
+    end    
   end
 
 end
