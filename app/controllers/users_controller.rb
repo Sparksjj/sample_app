@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :have_signed_in, only: [:new, :create]
   before_action :require_login, only: [:show, :edit, :update, :index]
   before_action :correct_user, only: [:edit, :update]
   before_action :is_admin, only: [:destroy]
@@ -8,6 +9,7 @@ class UsersController < ApplicationController
 
   def show
   	@user=User.find(params[:id])
+    @microposts=@user.microposts.paginate(page: params[:page], per_page: "15")
   end
 
   def new
@@ -53,6 +55,13 @@ private
         store_location
         flash[:error]="Pleass sign in or sign up first."
         redirect_to signin_path 
+    end
+  end
+  
+  def have_signed_in  
+    if signed_in?
+        flash[:error]="You have signed in yet."
+        redirect_to root_path
     end
   end
 
