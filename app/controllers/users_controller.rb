@@ -46,17 +46,11 @@ class UsersController < ApplicationController
   end
 
 private
+
   def user_params
   	params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
   
-  def require_login  
-    unless signed_in?
-        store_location
-        flash[:error]="Pleass sign in or sign up first."
-        redirect_to signin_path 
-    end
-  end
   
   def have_signed_in  
     if signed_in?

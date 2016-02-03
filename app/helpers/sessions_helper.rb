@@ -29,12 +29,20 @@ module SessionsHelper
  		user==current_user 		
  	end
 
- 	 def redirect_back_or(default)
-    redirect_to(session[:return_to] || default)
-    session.delete(:return_to)
-  end
+  	def require_login  
+  	  unless signed_in?
+  	      store_location
+  	      flash[:error]="Pleass sign in or sign up first."
+  	      redirect_to signin_path 
+  	  end
+  	end
 
-  def store_location
-    session[:return_to] = request.url if request.get?
-  end
+ 	def redirect_back_or(default)
+    	redirect_to(session[:return_to] || default)
+    	session.delete(:return_to)
+  	end
+
+  	def store_location
+    	session[:return_to] = request.url if request.get?
+  	end
 end
